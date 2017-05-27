@@ -54,11 +54,13 @@ public class ChubbyBoyController : NetworkBehaviour {
 	void Update () {
 		{
 			if (isDeath > 0) {
-					CmdToNormal ();
-					this.GetComponent<SpriteRenderer> ().sprite = dead;
-				if (isDeath++ == 60)
-					this.GetComponent<SpriteRenderer> ().sprite = normal;
-				isDeath %= 60;
+				CmdToNormal ();
+				animator.SetBool ("isDeath", true);
+				if (++isDeath == 60) {
+					animator.SetBool ("isDeath", false);
+					isDeath %= 60;
+				}
+
 			}
 			if (animator.GetInteger ("Direction") == 3)
 				this.GetComponent<SpriteRenderer> ().flipX = true;
@@ -74,9 +76,9 @@ public class ChubbyBoyController : NetworkBehaviour {
 			this.GetComponent<SpriteRenderer> ().color = color;
 			if (!isLocalPlayer || isDeath >0)
 				return;
+			animator.SetBool ("isDeath", false);
 			Move ();
 			SkillCheck ();
-
 		}
 	}
 	void Changesize(){
@@ -138,7 +140,7 @@ public class ChubbyBoyController : NetworkBehaviour {
 		} else {
 			fireoff = transform.localScale.x*Vector3.left * 0.5f;
 		}
-		GameObject trap = Instantiate (Trap, this.transform.position, this.transform.rotation);
+		GameObject trap = Instantiate (Trap, this.transform.position+fireoff, this.transform.rotation);
 		NetworkServer.SpawnWithClientAuthority(trap,gameObject);
 		Destroy (trap, 4.0f);
 	}
@@ -207,8 +209,8 @@ public class ChubbyBoyController : NetworkBehaviour {
 		//gameObject.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 	}
 	void OnCollisionStay(Collision c){
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
-			gameObject.GetComponent<Rigidbody> ().AddForce(Vector3.up*130*5,ForceMode.Impulse);
+		if (Input.GetKeyDown(KeyCode.UpArrow)) {
+			gameObject.GetComponent<Rigidbody> ().velocity = new Vector3(gameObject.GetComponent<Rigidbody> ().velocity.x, 5f, 0);
 		}	
 	}
 }

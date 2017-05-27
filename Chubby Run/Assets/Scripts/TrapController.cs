@@ -12,6 +12,8 @@ public class TrapController : MonoBehaviour {
 	void Update () {
 	}
 	void OnCollisionEnter(Collision c){
-		
+		ChubbyBoyController hitter = c.gameObject.GetComponent<ChubbyBoyController> ();
+		if (hitter != null)
+			hitter.isDeath = 1;
 	}
 }
