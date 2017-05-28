@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4705278873533224}
   - component: {fileID: 114879070335325184}
+  - component: {fileID: 114790575331790034}
   m_Layer: 0
   m_Name: Network
   m_TagString: Untagged
@@ -40,6 +41,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114790575331790034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1257439792955496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 227461547, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  showGUI: 1
+  offsetX: 0
+  offsetY: 0
 --- !u!114 &114879070335325184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,10 +129,11 @@ MonoBehaviour:
   m_ShowLobbyGUI: 1
   m_MaxPlayers: 4
   m_MaxPlayersPerConnection: 1
-  m_MinPlayers: 2
-  m_LobbyPlayerPrefab: {fileID: 0}
+  m_MinPlayers: 1
+  m_LobbyPlayerPrefab: {fileID: 114056611834567966, guid: 22fb276f70f122f4299114cbd084d978,
+    type: 2}
   m_GamePlayerPrefab: {fileID: 1055563262053874, guid: 54d5ab75cb8377a48a380d3a2cd37f86,
     type: 2}
   m_LobbyScene: lobbyScene
-  m_PlayScene: GameplayScene
+  m_PlayScene: gameplaybackgroundscene
   lobbySlots: []

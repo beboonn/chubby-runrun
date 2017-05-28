@@ -14,7 +14,9 @@ public class PowerUpController : MonoBehaviour {
 		
 	}
 	void OnTriggerEnter(Collider other){
-
+		if (!other.gameObject.GetComponent<ChubbyBoyController> ().isLocalPlayer)
+			return;
+		
 		noPowerUp = PlayerPrefs.GetInt ("noPowerUp", 0);
 		if (noPowerUp == 0) {
 			int check = Random.Range (0, 4);

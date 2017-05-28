@@ -28,6 +28,8 @@ public class ChubbyBoyController : NetworkBehaviour {
 	private Color color;
 	[SyncVar]
 	public int isDeath;
+	[SyncVar]
+	private float time;
 	public bool pause;
 	public Camera cam;
 
@@ -46,6 +48,7 @@ public class ChubbyBoyController : NetworkBehaviour {
 		multi = 1;
 		isDeath = 0;
 		color = defualtcolor;
+		time = Time.time;
 		if (isLocalPlayer)
 			return;
 		cam.enabled = false;
@@ -119,11 +122,11 @@ public class ChubbyBoyController : NetworkBehaviour {
 		Vector3 fireoff = Vector3.zero;
 		if (animator.GetInteger ("Direction") == 3) {
 			firespeed = Vector3.left * 10.5f;
-			fireoff = transform.localScale.x*Vector3.left * 0.5f;
+			fireoff = transform.localScale.x*Vector3.left * 0.55f;
 			
 		} else {
 			firespeed = Vector3.right * 10.5f;
-			fireoff = transform.localScale.x*Vector3.right * 0.5f;
+			fireoff = transform.localScale.x*Vector3.right * 0.55f;
 		}
 		GameObject fireball = Instantiate (Fireball, this.transform.position+fireoff, this.transform.rotation);
 		fireball.GetComponent<Rigidbody> ().velocity = firespeed;
@@ -135,10 +138,10 @@ public class ChubbyBoyController : NetworkBehaviour {
 	void CmdBanana(){
 		Vector3 fireoff = Vector3.zero;
 		if (animator.GetInteger ("Direction") == 3) {
-			fireoff = transform.localScale.x*Vector3.right * 0.5f;
+			fireoff = transform.localScale.x*Vector3.right * 0.55f;
 
 		} else {
-			fireoff = transform.localScale.x*Vector3.left * 0.5f;
+			fireoff = transform.localScale.x*Vector3.left * 0.55f;
 		}
 		GameObject trap = Instantiate (Trap, this.transform.position+fireoff, this.transform.rotation);
 		NetworkServer.SpawnWithClientAuthority(trap,gameObject);
@@ -206,7 +209,12 @@ public class ChubbyBoyController : NetworkBehaviour {
 			transform.position = shadow;
 		}
 		else if (move != Vector3.zero) transform.Translate (move * speed*multi / move.magnitude * Time.deltaTime);
+		if (transform.position.x > 90)
+			Finish ();
 		//gameObject.GetComponent<Rigidbody> ().velocity = Vector3.zero;
+	}
+	void Finish(){
+		NetworkLobbyManager.singleton.ServerChangeScene ("lobbyScene");	
 	}
 	void OnCollisionStay(Collision c){
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
